@@ -346,9 +346,9 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
 }
 @media (max-width:1050px){
   .layout{grid-template-columns:minmax(0,1fr);padding:12px}
-  .sidebar{order:2}
+  .sidebar{order:3}
   .stage{order:1}
-  .info{order:3;position:static}
+  .info{order:2;position:static;scroll-margin-top:78px}
   .sidebar .panel{display:inline-block;vertical-align:top;margin-right:10px}
   .views{flex-direction:row;flex-wrap:wrap}
   .view-btn{width:auto}
@@ -358,14 +358,16 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
   .mobile-only{display:inline-block;margin-right:6px;padding:7px 10px;border-radius:9px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-family:inherit}
 }
 @media (max-width:760px){
-  .topbar{padding:10px 12px;gap:10px;flex-wrap:wrap}
+  .topbar{padding:10px 12px;gap:10px;flex-wrap:wrap;position:static}
+  .info{scroll-margin-top:12px}
   .brand{flex:1 1 100%}
   .brand h1{font-size:16px}
   .brand p{display:none}
   .top-actions{margin-left:0;width:100%;justify-content:stretch}
   .top-actions .btn{flex:1;justify-content:center}
   .viewport{height:min(58vh,560px)}
-  .lbl{font-size:10px;padding:2px 5px;max-width:118px}
+  .lbl{font-size:9.5px;padding:2px 5px;max-width:112px}
+  .lbl small{display:none}
   .stage-head p{display:none}
   .stage-head h3{font-size:15px}
 }
@@ -604,7 +606,7 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
     <div class="stage-foot">
       <div class="legend" id="legend"></div>
       <span style="flex:1"></span>
-      <span class="muted" style="font-size:10.5px">Bilder: P. J. Lynch (CC BY 2.5) · Servier Medical Art (CC BY-SA 3.0), via Wikimedia Commons · v1.0.0 · <a href="../">Startseite</a></span>
+      <span class="muted" style="font-size:10.5px">Bilder: P. J. Lynch (CC BY 2.5) · Servier Medical Art (CC BY-SA 3.0), via Wikimedia Commons · v1.0.1 · <a href="../">Startseite</a></span>
     </div>
   </section>
 
@@ -1327,6 +1329,9 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
     $("#info-merke").innerHTML = `<b>Merke:</b> ${esc(d.merke)}`;
     updateLearnedBtn();
     buildLabels();
+    if (window.matchMedia("(max-width: 1050px)").matches) {
+      requestAnimationFrame(() => info.scrollIntoView({ behavior: "smooth", block: "start" }));
+    }
   }
 
   function clearSelection() {

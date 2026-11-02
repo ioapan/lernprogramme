@@ -1,5 +1,12 @@
 # Änderungen
 
+## v1.0.1 – 02.11.2026
+
+- **Mobil:** Im Mundanatomie-Programm erscheint die Infobox direkt unter dem Bild und scrollt beim Antippen automatisch ins Sichtfeld.
+- **Mobil:** Kapitel-Auswahl oben im Test-3-Trainer (die Themenliste muss nicht mehr durchscrollt werden).
+- **Mobil:** kleinere Beschriftungen im Schädel-Diagramm, Startseiten-Logo bündig.
+- Geprüft auf iPhone-/Android-Grössen und Tablet: kein horizontales Scrollen, Quiz passt ins Fenster.
+
 ## v1.0.0 – 02.11.2026
 
 - Erste Veröffentlichung.

@@ -481,6 +481,7 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
         <p id="ch-goal"></p>
       </div>
       <div style="flex:1"></div>
+      <select id="chapter-select" class="mobile-only" aria-label="Thema wählen"></select>
       <div class="stage-tools">
         <button class="icon-btn" id="btn-full" title="Vollbild">⛶</button>
       </div>
@@ -510,7 +511,7 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
   </div>
 </div>
 
-<footer class="site-foot">Test 3 Trainer · v1.0.0 · <a href="../">Startseite</a> · <a href="../CHANGELOG.md">Änderungen</a></footer>
+<footer class="site-foot">Test 3 Trainer · v1.0.1 · <a href="../">Startseite</a> · <a href="../CHANGELOG.md">Änderungen</a></footer>
 <div class="lightbox" id="lightbox"><button class="lb-close" id="lb-close">×</button><img id="lb-img" alt=""><div class="lb-cap" id="lb-cap"></div></div>
 <div class="toast" id="toast"></div>
 <script>
@@ -889,6 +890,7 @@ const QUESTIONS = [
   function init() {
     renderSidebar();
     renderChapters();
+    fillChapterSelect();
     bindUI();
     setChapter(state.ch, true);
     updateProgress();
@@ -907,6 +909,14 @@ const QUESTIONS = [
       b.addEventListener("click", () => setChapter(c.id));
       box.appendChild(b);
     });
+  }
+
+  function fillChapterSelect() {
+    const sel = $("#chapter-select");
+    if (!sel) return;
+    sel.innerHTML = CHAPTERS.map(c => `<option value="${c.id}">${esc(c.nr.replace("Kap. ", "Kap. "))} · ${esc(c.title)}</option>`).join("");
+    sel.value = state.ch;
+    sel.addEventListener("change", e => setChapter(e.target.value));
   }
 
   function renderChapters() {
@@ -994,6 +1004,7 @@ const QUESTIONS = [
     $$("#chapter-list .view-btn").forEach(b => b.classList.toggle("active", b.dataset.ch === id));
     const c = CHAPTERS.find(x => x.id === id);
     $("#ch-title").textContent = c.title;
+    const sel = $("#chapter-select"); if (sel) sel.value = id;
     $("#ch-goal").textContent = c.goal;
     persist();
     if (!silent) window.scrollTo({ top: 0, behavior: "smooth" });
