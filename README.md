@@ -27,6 +27,8 @@ index.html              Startseite
 mundanatomie/index.html Lernprogramm 1
 test3/index.html        Lernprogramm 2
 img/                    Screenshots
+icon-*.png             App-Icons (Home-Bildschirm)
+manifest.webmanifest   Web-App-Manifest
 CHANGELOG.md            Versionshistorie
 ```
 

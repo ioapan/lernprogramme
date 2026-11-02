@@ -1,5 +1,11 @@
 # Änderungen
 
+## v1.1.0 – 02.11.2026
+
+- **Zum Home-Bildschirm:** Beide Programme und die Startseite haben jetzt ein eigenes App-Icon und ein Web-App-Manifest.
+- Beim Start vom Home-Bildschirm öffnen sie ohne Browserleiste (Standalone), mit passender Titelleiste und Theme-Farbe.
+- Eigene Icons: «M» für Mundanatomie, «3» für den Test-3-Trainer, «L» für die Übersicht.
+
 ## v1.0.1 – 02.11.2026
 
 - **Mobil:** Im Mundanatomie-Programm erscheint die Infobox direkt unter dem Bild und scrollt beim Antippen automatisch ins Sichtfeld.
