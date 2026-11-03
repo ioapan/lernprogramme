@@ -1,5 +1,12 @@
 # Änderungen
 
+## v2.1.0 – 03.11.2026
+
+- **Echter 3D-Schädel-Scan** (BodyParts3D, CC BY-SA 2.1 JP) statt nur Schema-Modell.
+  - Umschalter «Scan / Schema»: Scan zeigt den anatomischen Schädel mit Ober- und Unterkiefer und Zähnen; Schema zeigt Kiefer, Muskeln und Drüsen als farbiges Lehrmodell.
+  - Klick auf Scan-Strukturen (Schädel, Oberkiefer, Unterkiefer) zeigt die Erklärung.
+  - Scan wird gzip-komprimiert geladen (DecompressionStream), bleibt offline nutzbar.
+
 ## v2.0.1 – 03.11.2026
 
 - 3D-Modell: Kamera passt sich automatisch an Bildschirmgrösse an (auch Hochformat/Handy).
