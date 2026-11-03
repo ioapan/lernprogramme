@@ -385,6 +385,8 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
   .viewport{border:0}
 }
 
+.lang{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 10px;font-size:12px;font-family:inherit;color:var(--ink);cursor:pointer}
+
 </style>
 </head>
 <body>
@@ -393,18 +395,21 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
   <div class="brand">
     <div class="brand-mark">M</div>
     <div>
-      <h1>Mundanatomie interaktiv</h1>
-      <p>Lernprogramm für Dentalassistentinnen · Deutsch &amp; Latein</p>
+      <h1 data-i18n="brand">Mundanatomie interaktiv</h1>
+      <p data-i18n="sub">Lernprogramm für Dentalassistentinnen · Deutsch &amp; Latein</p>
     </div>
   </div>
   <div class="top-actions">
+    <select id="lang" class="lang" aria-label="Sprache">
+      <option value="de">DE</option><option value="en">EN</option><option value="el">EL</option>
+    </select>
     <button class="btn" id="btn-help">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.6.25-1 .8-1 1.5v.7"/><circle cx="12" cy="17" r=".7" fill="currentColor"/></svg>
-      Anleitung
+      <span data-i18n="help">Anleitung</span>
     </button>
     <button class="btn primary" id="btn-quiz">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h7"/><path d="M17 14l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Quiz starten
+      <span data-i18n="quiz">Quiz starten</span>
     </button>
   </div>
 </header>
@@ -414,7 +419,7 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
   <!-- ============ SIDEBAR ============ -->
   <aside class="sidebar">
     <section class="panel panel-pad">
-      <h2>Ansicht</h2>
+      <h2 data-i18n="views">Ansicht</h2>
       <div class="views" id="view-list">
         <button class="view-btn active" data-view="skull">
           <span class="ico">◔</span>
@@ -440,34 +445,34 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
     </section>
 
     <section class="panel panel-pad">
-      <h2>Filter</h2>
+      <h2 data-i18n="filter">Filter</h2>
       <div class="chips" id="cat-chips"></div>
       <div style="margin-top:12px">
         <div class="switch-row">
-          <span>Namen einblenden</span>
+          <span data-i18n="names">Namen einblenden</span>
           <label class="switch"><input type="checkbox" id="toggle-names" checked><span></span></label>
         </div>
         <div class="switch-row">
-          <span>Beschriftung üben</span>
+          <span data-i18n="blind">Beschriftung üben</span>
           <label class="switch"><input type="checkbox" id="toggle-blind"><span></span></label>
         </div>
       </div>
-      <p class="muted" style="margin:8px 2px 0">Mit den Farbpunkten lassen sich ganze Gruppen ein- und ausblenden.</p>
+      <p class="muted" style="margin:8px 2px 0" data-i18n="tip">Mit den Farbpunkten lassen sich ganze Gruppen ein- und ausblenden.</p>
     </section>
 
     <section class="panel panel-pad">
-      <h2>Suche</h2>
+      <h2 data-i18n="search">Suche</h2>
       <div class="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4" stroke-linecap="round"/></svg>
-        <input id="search" type="search" placeholder="z. B. Masseter, Gaumen …" autocomplete="off">
+        <input id="search" type="search" placeholder="z. B. Masseter, Gaumen …" data-i18n-ph="searchPh" autocomplete="off">
       </div>
       <div class="search-results" id="search-results"></div>
     </section>
 
     <section class="panel panel-pad">
-      <h2>Lernstand</h2>
+      <h2 data-i18n="progress">Lernstand</h2>
       <div class="progress-bar"><i id="learn-bar"></i></div>
-      <div class="muted"><span id="learn-count">0</span> von <span id="learn-total">0</span> Strukturen als gelernt markiert</div>
+      <div class="muted"><span id="learn-count">0</span> <span data-i18n="learnedOf">von</span> <span id="learn-total">0</span> <span data-i18n="learnedMarked">Strukturen als gelernt markiert</span></div>
     </section>
   </aside>
 
@@ -500,8 +505,8 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
       <b id="quiz-prompt">Finde die Struktur</b>
       <span class="q-progress" id="quiz-progress"></span>
       <span class="spacer"></span>
-      <button class="btn" id="quiz-skip">Überspringen</button>
-      <button class="btn" id="quiz-stop">Beenden</button>
+      <button class="btn" id="quiz-skip" data-i18n="skip">Überspringen</button>
+      <button class="btn" id="quiz-stop" data-i18n="stop">Beenden</button>
     </div>
     <div class="feedback" id="feedback"></div>
 
@@ -614,26 +619,26 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
     <div class="stage-foot">
       <div class="legend" id="legend"></div>
       <span style="flex:1"></span>
-      <span class="muted" style="font-size:10.5px">Bilder: P. J. Lynch (CC BY 2.5) · Servier Medical Art (CC BY-SA 3.0), via Wikimedia Commons · v1.1.0 · <a href="../">Startseite</a></span>
+      <span class="muted" style="font-size:10.5px"><span data-i18n="credits">Bilder: P. J. Lynch (CC BY 2.5) · Servier Medical Art (CC BY-SA 3.0), via Wikimedia Commons</span> · v2.0.0 · <a href="../">Startseite</a></span>
     </div>
   </section>
 
   <!-- ============ INFO ============ -->
   <aside class="info panel" id="info">
     <div class="info-empty" id="info-empty">
-      <h2>Struktur auswählen</h2>
-      <p class="muted" style="font-size:13px">Klicke im Bild auf einen Knochen, Muskel, Zahn oder eine Drüse. Hier erscheinen dann die Erklärung, die Funktion und ein Merksatz.</p>
+      <h2 data-i18n="selectTitle">Struktur auswählen</h2>
+      <p class="muted" style="font-size:13px" data-i18n="selectIntro">Klicke im Bild auf einen Knochen, Muskel, Zahn oder eine Drüse. Hier erscheinen dann die Erklärung, die Funktion und ein Merksatz.</p>
       <div class="info-block" style="margin-top:16px">
-        <b>Zahnformel (bleibend)</b>
+        <b data-i18n="dentalFormula">Zahnformel (bleibend)</b>
         <table class="zahnformel">
-          <tr><td>Oberkiefer rechts</td><td>18 – 11</td></tr>
-          <tr><td>Oberkiefer links</td><td>21 – 28</td></tr>
-          <tr><td>Unterkiefer links</td><td>31 – 38</td></tr>
-          <tr><td>Unterkiefer rechts</td><td>41 – 48</td></tr>
+          <tr><td data-i18n="jawRight">Oberkiefer rechts</td><td>18 – 11</td></tr>
+          <tr><td data-i18n="jawLeft">Oberkiefer links</td><td>21 – 28</td></tr>
+          <tr><td data-i18n="lowLeft">Unterkiefer links</td><td>31 – 38</td></tr>
+          <tr><td data-i18n="lowRight">Unterkiefer rechts</td><td>41 – 48</td></tr>
         </table>
-        <p class="muted" style="margin:8px 0 0">Erste Ziffer = Quadrant, zweite Ziffer = Zahn von der Mittellinie nach hinten.</p>
+        <p class="muted" style="margin:8px 0 0" data-i18n="formulaHint">Erste Ziffer = Quadrant, zweite Ziffer = Zahn von der Mittellinie nach hinten.</p>
       </div>
-      <div class="merke" style="margin-top:12px"><b>Merke:</b> 4 Quadranten × 8 Zähne = 32 bleibende Zähne.</div>
+      <div class="merke" style="margin-top:12px"><b data-i18n="merke">Merke:</b> <span data-i18n="quadrants">4 Quadranten × 8 Zähne = 32 bleibende Zähne.</span></div>
     </div>
 
     <div id="info-detail" style="display:none">
@@ -644,11 +649,11 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
       </div>
       <div class="info-body">
         <p id="info-desc"></p>
-        <div class="info-block"><b>Funktion</b><span id="info-funktion"></span></div>
+        <div class="info-block" id="funktion-block"><b data-i18n="function">Funktion</b><span id="info-funktion"></span></div>
         <div class="merke" id="info-merke"></div>
         <div class="info-actions">
-          <button class="btn primary" id="btn-learned">✓ Als gelernt markieren</button>
-          <button class="btn" id="btn-speak">🔊 Vorlesen</button>
+          <button class="btn primary" id="btn-learned" data-i18n="markLearned">✓ Als gelernt markieren</button>
+          <button class="btn" id="btn-speak" data-i18n="speak">🔊 Vorlesen</button>
         </div>
       </div>
     </div>
@@ -658,18 +663,18 @@ svg text{font-family:"Avenir Next","Segoe UI",sans-serif}
 <!-- ============ QUIZ MODAL ============ -->
 <div class="modal" id="modal">
   <div class="modal-card" id="modal-card">
-    <h2 id="modal-title">Quiz</h2>
-    <p id="modal-sub">Wähle einen Modus. Die Fragen beziehen sich auf die eingeblendeten Strukturen.</p>
+    <h2 id="modal-title" data-i18n="quizTitle">Quiz</h2>
+    <p id="modal-sub" data-i18n="quizSub">Wähle einen Modus. Die Fragen beziehen sich auf die eingeblendeten Strukturen.</p>
     <div class="mode-grid" id="mode-grid">
       <button class="mode" data-mode="find">
         <span class="em">🎯</span>
-        <b>Struktur finden</b>
-        <span>Der Name wird genannt – du klickst die richtige Stelle im Bild.</span>
+        <b data-i18n="modeFind">Struktur finden</b>
+        <span data-i18n="modeFindDesc">Der Name wird genannt – du klickst die richtige Stelle im Bild.</span>
       </button>
       <button class="mode" data-mode="mc">
         <span class="em">🧠</span>
-        <b>Name erkennen</b>
-        <span>Eine Struktur leuchtet auf – wähle den richtigen Namen.</span>
+        <b data-i18n="modeMc">Name erkennen</b>
+        <span data-i18n="modeMcDesc">Eine Struktur leuchtet auf – wähle den richtigen Namen.</span>
       </button>
     </div>
     <div id="modal-quiz" style="display:none"></div>
@@ -994,6 +999,197 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
 </script>
 <script>
 /* ============================================================
+   Sprachdaten DE / EN / EL  (Terminologie geprüft)
+   ============================================================ */
+const I18N = {
+  ui: {
+    de: {
+      brand:"Mundanatomie interaktiv", sub:"Lernprogramm für Dentalassistentinnen · Deutsch & Latein",
+      views:"Ansicht", filter:"Filter", search:"Suche", progress:"Lernstand", names:"Namen einblenden",
+      blind:"Beschriftung üben", tip:"Mit den Farbpunkten lassen sich ganze Gruppen ein- und ausblenden.",
+      searchPh:"z. B. Masseter, Gaumen …", searchAll:"Alle 53 Strukturen durchsuchen …", noResults:"Nichts gefunden.",
+      clickInfo:"Klick = Info · Namen über den Schalter rechts oben",
+      credits:"Bilder: P. J. Lynch (CC BY 2.5) · Servier Medical Art (CC BY-SA 3.0), via Wikimedia Commons",
+      learnedOf:"von", learnedMarked:"Strukturen als gelernt markiert",
+      selectTitle:"Struktur auswählen", selectIntro:"Klicke im Bild auf einen Knochen, Muskel, Zahn oder eine Drüse. Hier erscheinen dann die Erklärung, die Funktion und ein Merksatz.",
+      dentalFormula:"Zahnformel (bleibend)", jawRight:"Oberkiefer rechts", jawLeft:"Oberkiefer links", lowLeft:"Unterkiefer links", lowRight:"Unterkiefer rechts",
+      formulaHint:"Erste Ziffer = Quadrant, zweite Ziffer = Zahn von der Mittellinie nach hinten.",
+      merke:"Merke:", quadrants:"4 Quadranten × 8 Zähne = 32 bleibende Zähne.",
+      function:"Funktion", markLearned:"✓ Als gelernt markieren", unmark:"✓ Gelernt – rückgängig", speak:"🔊 Vorlesen",
+      quiz:"Quiz starten", quizTitle:"Quiz", quizSub:"Wähle einen Modus. Die Fragen beziehen sich auf die eingeblendeten Strukturen.",
+      modeFind:"Struktur finden", modeFindDesc:"Der Name wird genannt – du klickst die richtige Stelle im Bild.",
+      modeMc:"Name erkennen", modeMcDesc:"Eine Struktur leuchtet auf – wähle den richtigen Namen.",
+      findPrompt:"Finde im Bild: ", mcPrompt:"Welche Struktur ist markiert?", question:"Frage", correctWord:"richtig",
+      skip:"Überspringen", stop:"Beenden", right:"Richtig", wrong:"Leider falsch", wouldBe:"Richtig wäre:",
+      rightFind:"Richtig!", quizDone:"Quiz beendet", again:"Nochmal", close:"Schliessen",
+      help:"Anleitung", helpTitle:"So funktioniert's", ok:"Alles klar",
+      viewTitles:{skull:["Schädel & Knochen","Seitenansicht – tippe einen Knochen an."],muscles:["Kaumuskulatur & Drüsen","Oberflächliche Muskeln, Ohrspeichel- und Unterkieferspeicheldrüse."],sagittal:["Kopf im Schnitt","Mundhöhle, Zunge, Gaumen und Rachen im Medianschnitt."],oral:["Mundhöhle von vorne","Zähne, Zahnfleisch, Gaumen, Zunge und Mandeln."],tooth:["Zahn im Längsschnitt","Schmelz, Dentin, Pulpa und Zahnhalteapparat."]},
+      cats:{knochen:"Knochen",muskeln:"Muskeln",zaehne:"Zähne",speicheldruesen:"Drüsen",mundhoehle:"Weichteile"}
+    },
+    en: {
+      brand:"Oral Anatomy interactive", sub:"Learning programme for dental assistants · German & Latin",
+      views:"View", filter:"Filter", search:"Search", progress:"Progress", names:"Show names",
+      blind:"Practise labels", tip:"Use the colour dots to show or hide whole groups.",
+      searchPh:"e.g. masseter, palate …", searchAll:"Search all 53 structures …", noResults:"Nothing found.",
+      clickInfo:"Click = info · names via the switch top right",
+      credits:"Images: P. J. Lynch (CC BY 2.5) · Servier Medical Art (CC BY-SA 3.0), via Wikimedia Commons",
+      learnedOf:"of", learnedMarked:"structures marked as learned",
+      selectTitle:"Select a structure", selectIntro:"Click a bone, muscle, tooth or gland in the image. The explanation, function and a key note appear here.",
+      dentalFormula:"Tooth numbering (permanent)", jawRight:"Upper right", jawLeft:"Upper left", lowLeft:"Lower left", lowRight:"Lower right",
+      formulaHint:"First digit = quadrant, second digit = tooth from the midline backwards.",
+      merke:"Key note:", quadrants:"4 quadrants × 8 teeth = 32 permanent teeth.",
+      function:"Function", markLearned:"✓ Mark as learned", unmark:"✓ Learned – undo", speak:"🔊 Read aloud",
+      quiz:"Start quiz", quizTitle:"Quiz", quizSub:"Choose a mode. Questions refer to the structures currently shown.",
+      modeFind:"Find the structure", modeFindDesc:"The name is given – click the right spot in the image.",
+      modeMc:"Name the structure", modeMcDesc:"A structure lights up – choose the correct name.",
+      findPrompt:"Find in the image: ", mcPrompt:"Which structure is marked?", question:"Question", correctWord:"correct",
+      skip:"Skip", stop:"Stop", right:"Correct", wrong:"Not quite", wouldBe:"The correct answer is:",
+      rightFind:"Correct!", quizDone:"Quiz finished", again:"Again", close:"Close",
+      help:"How to use", helpTitle:"How it works", ok:"Got it",
+      viewTitles:{skull:["Skull & bones","Lateral view – tap a bone."],muscles:["Muscles of mastication & glands","Superficial muscles, parotid and submandibular gland."],sagittal:["Head in section","Oral cavity, tongue, palate and pharynx in the median plane."],oral:["Oral cavity, front view","Teeth, gums, palate, tongue and tonsils."],tooth:["Tooth in section","Enamel, dentine, pulp and periodontium."]},
+      cats:{knochen:"Bones",muskeln:"Muscles",zaehne:"Teeth",speicheldruesen:"Glands",mundhoehle:"Soft tissue"}
+    },
+    el: {
+      brand:"Στοματική Ανατομία", sub:"Πρόγραμμα εκμάθησης για οδοντιατρικούς βοηθούς · Γερμανικά & Λατινικά",
+      views:"Προβολή", filter:"Φίλτρα", search:"Αναζήτηση", progress:"Πρόοδος", names:"Εμφάνιση ονομάτων",
+      blind:"Εξάσκηση ονομάτων", tip:"Με τις χρωματιστές κουκκίδες εμφανίζετε ή κρύβετε ομάδες.",
+      searchPh:"π.χ. μασητήρας, υπερώα …", searchAll:"Αναζήτηση σε 53 δομές …", noResults:"Δεν βρέθηκε.",
+      clickInfo:"Κλικ = πληροφορία · ονόματα από τον διακόπτη",
+      credits:"Εικόνες: P. J. Lynch (CC BY 2.5) · Servier Medical Art (CC BY-SA 3.0), μέσω Wikimedia Commons",
+      learnedOf:"από", learnedMarked:"δομές ως μαθημένες",
+      selectTitle:"Επιλέξτε δομή", selectIntro:"Πατήστε ένα οστό, μυ, δόντι ή αδένα. Εδώ εμφανίζονται η εξήγηση, η λειτουργία και μια σημείωση.",
+      dentalFormula:"Οδοντικός τύπος (μόνιμα)", jawRight:"Άνω δεξιά", jawLeft:"Άνω αριστερά", lowLeft:"Κάτω αριστερά", lowRight:"Κάτω δεξιά",
+      formulaHint:"Πρώτο ψηφίο = τεταρτημόριο, δεύτερο = δόντι από τη μέση γραμμή.",
+      merke:"Σημείωση:", quadrants:"4 τεταρτημόρια × 8 δόντια = 32 μόνιμα δόντια.",
+      function:"Λειτουργία", markLearned:"✓ Ως μαθημένο", unmark:"✓ Μαθημένο – αναίρεση", speak:"🔊 Ανάγνωση",
+      quiz:"Κουίζ", quizTitle:"Κουίζ", quizSub:"Επιλέξτε λειτουργία. Οι ερωτήσεις αφορούν τις εμφανιζόμενες δομές.",
+      modeFind:"Βρείτε τη δομή", modeFindDesc:"Δίνεται το όνομα – πατήστε το σωστό σημείο.",
+      modeMc:"Βρείτε το όνομα", modeMcDesc:"Μια δομή φωτίζεται – επιλέξτε το σωστό όνομα.",
+      findPrompt:"Βρείτε στην εικόνα: ", mcPrompt:"Ποια δομή είναι σημειωμένη;", question:"Ερώτηση", correctWord:"σωστά",
+      skip:"Παράλειψη", stop:"Τέλος", right:"Σωστό", wrong:"Λάθος", wouldBe:"Το σωστό είναι:",
+      rightFind:"Σωστά!", quizDone:"Τέλος κουίζ", again:"Ξανά", close:"Κλείσιμο",
+      help:"Οδηγίες", helpTitle:"Πώς λειτουργεί", ok:"Εντάξει",
+      viewTitles:{skull:["Κρανίο & οστά","Πλάγια προβολή – πατήστε ένα οστό."],muscles:["Μύες μάσησης & αδένες","Επιφανειακοί μύες, παρωτίδα και υπογνάθιος αδένας."],sagittal:["Κεφάλι σε τομή","Στοματική κοιλότητα, γλώσσα, υπερώα και φάρυγγας."],oral:["Στοματική κοιλότητα, πρόσθια","Δόντια, ούλα, υπερώα, γλώσσα και αμυγδαλές."],tooth:["Δόντι σε τομή","Αδαμαντίνη, οδοντίνη, πολφός και περιοδοντικός ιστός."]},
+      cats:{knochen:"Οστά",muskeln:"Μύες",zaehne:"Δόντια",speicheldruesen:"Αδένες",mundhoehle:"Μαλακά μόρια"}
+    }
+  },
+  tr: {
+    en: {
+      "os-frontale":["Frontal bone","Forms the forehead and the roof of the orbits."],
+      "os-parietale":["Parietal bone","Forms the roof and side wall of the skull."],
+      "os-occipitale":["Occipital bone","Back of the skull; contains the foramen magnum."],
+      "os-temporale":["Temporal bone","Side of the skull; contains the inner ear and the jaw joint fossa."],
+      "os-sphenoidale":["Sphenoid bone","Central skull base; houses the pituitary in the sella turcica."],
+      "os-zygomaticum":["Zygomatic bone","Forms the cheekbone and the lateral orbital rim."],
+      "os-nasale":["Nasal bone","Bony bridge of the nose."],
+      "maxilla":["Maxilla (upper jaw)","Carries the upper teeth and forms the front hard palate."],
+      "mandibula":["Mandible (lower jaw)","The only movable skull bone; carries the lower teeth."],
+      "os-hyoideum":["Hyoid bone","U-shaped bone in the neck; attachment for tongue and larynx muscles."],
+      "m-temporalis":["Temporalis muscle","Jaw closer; elevates the mandible."],
+      "m-masseter":["Masseter muscle","Strongest jaw closer; palpable at the jaw angle."],
+      "m-buccinator":["Buccinator muscle","Lateral wall of the oral cavity; keeps food between the teeth."],
+      "m-orbicularis-oris":["Orbicularis oris","Closes and purses the lips."],
+      "m-mylohyoideus":["Mylohyoid muscle","Forms the floor of the mouth; elevates the hyoid."],
+      "m-pterygoideus-lateralis":["Lateral pterygoid","Opens the mouth; protrudes the mandible."],
+      "m-pterygoideus-medialis":["Medial pterygoid","Jaw closer; works with the masseter."],
+      "m-digastricus":["Digastric muscle","Opens the mouth; elevates the hyoid."],
+      "m-genioglossus":["Genioglossus","Main tongue muscle; pulls the tongue forward."],
+      "gl-parotidea":["Parotid gland","Largest salivary gland; serous saliva."],
+      "gl-submandibularis":["Submandibular gland","Below the mandible; mixed saliva."],
+      "gl-sublingualis":["Sublingual gland","Smallest major gland; mucous saliva."],
+      "ductus-parotideus":["Parotid duct (Stensen)","Opens opposite the upper second molar."],
+      "ductus-submandibularis":["Submandibular duct (Wharton)","Opens beside the lingual frenulum."],
+      "incisivi":["Incisors","Front teeth for biting."],
+      "caninus":["Canine","Pointed tooth with the longest root."],
+      "premolares":["Premolars","Two teeth per quadrant; crush food."],
+      "molares":["Molars","Large grinding teeth at the end of the arch."],
+      "enamelum":["Enamel","Hardest tissue; 96% mineral; does not regenerate."],
+      "dentinum":["Dentine","Main tooth substance; sensitive."],
+      "pulpa":["Pulp","Nerves and vessels; supplies the tooth."],
+      "periodontium":["Periodontal ligament","Anchors the tooth and absorbs chewing forces."],
+      "cementum":["Cementum","Covers the root; anchors the periodontal fibres."],
+      "alveolarknochen":["Alveolar bone","Bony socket that holds the teeth."],
+      "corona":["Crown","Visible part of the tooth."],
+      "cervix":["Cervix (neck)","Junction between crown and root."],
+      "radix":["Root","Part of the tooth anchored in bone."],
+      "ezg":["Cementoenamel junction","Border between enamel and cementum."],
+      "foramen-apicale":["Apical foramen","Opening at the root tip for nerves and vessels."],
+      "cavitas-oris":["Oral cavity","Space between lips, cheeks, palate and tongue."],
+      "vestibulum-oris":["Oral vestibule","Space between lips/cheeks and the teeth."],
+      "palatum-durum":["Hard palate","Bony roof of the mouth."],
+      "palatum-molle":["Soft palate","Closes the nasopharynx during swallowing."],
+      "uvula":["Uvula","Hangs from the soft palate."],
+      "lingua":["Tongue","Muscular organ for swallowing, speech and taste."],
+      "frenulum-linguae":["Lingual frenulum","Connects the tongue to the floor of the mouth."],
+      "gingiva":["Gums (gingiva)","Protects the periodontium."],
+      "tonsilla-palatina":["Palatine tonsil","Lymphatic tissue beside the fauces."],
+      "pharynx":["Pharynx","Muscular tube behind the mouth and nose."],
+      "epiglottis":["Epiglottis","Closes the airway during swallowing."],
+      "labium-superius":["Upper lip","Soft tissue of the upper mouth opening."],
+      "labium-inferius":["Lower lip","Soft tissue of the lower mouth opening."],
+      "papillae":["Lingual papillae","Carry the taste buds."]
+    },
+    el: {
+      "os-frontale":["Μετωπιαίο οστό","Σχηματίζει το μέτωπο και την οροφή των κόγχων."],
+      "os-parietale":["Βρεγματικό οστό","Σχηματίζει την οροφή και το πλάγιο τοίχωμα του κρανίου."],
+      "os-occipitale":["Ινιακό οστό","Πίσω μέρος του κρανίου· περιέχει το μέγα τρήμα."],
+      "os-temporale":["Κροταφικό οστό","Πλάγιο κρανίο· περιέχει το έσω ους και την κόγχη της κροταφογναθικής."],
+      "os-sphenoidale":["Σφηνοειδές οστό","Κεντρική βάση κρανίου· περιέχει την υπόφυση."],
+      "os-zygomaticum":["Ζυγωματικό οστό","Σχηματίζει το μήλο του προσώπου και το πλάγιο χείλος της κόγχης."],
+      "os-nasale":["Ρινικό οστό","Οστέινη γέφυρα της μύτης."],
+      "maxilla":["Άνω γνάθος","Φέρει τα πάνω δόντια και το πρόσθιο τμήμα της σκληρής υπερώας."],
+      "mandibula":["Κάτω γνάθος","Το μόνο κινητό οστό του κρανίου· φέρει τα κάτω δόντια."],
+      "os-hyoideum":["Υοειδές οστό","Οστό του λαιμού· στήριγμα μυών γλώσσας και λάρυγγα."],
+      "m-temporalis":["Κροταφίτης μυς","Κλείνει τη γνάθο· ανυψώνει την κάτω γνάθο."],
+      "m-masseter":["Μασητήρας μυς","Ο ισχυρότερος μυς κλεισίματος· ψηλαφάται στη γωνία."],
+      "m-buccinator":["Παρειακός μυς","Πλάγιο τοίχωμα του στόματος· κρατά την τροφή στα δόντια."],
+      "m-orbicularis-oris":["Σφιγκτήρας του στόματος","Κλείνει και συσπά τα χείλη."],
+      "m-mylohyoideus":["Μυλοϋοειδής μυς","Σχηματίζει το έδαφος του στόματος· ανυψώνει το υοειδές."],
+      "m-pterygoideus-lateralis":["Έξω πτερυγοειδής μυς","Ανοίγει το στόμα· προωθεί την κάτω γνάθο."],
+      "m-pterygoideus-medialis":["Έσω πτερυγοειδής μυς","Κλείνει τη γνάθο· συνεργάζεται με τον μασητήρα."],
+      "m-digastricus":["Διγάστορας μυς","Ανοίγει το στόμα· ανυψώνει το υοειδές."],
+      "m-genioglossus":["Γενειογλωσσικός μυς","Κύριος μυς της γλώσσας· την έλκει μπροστά."],
+      "gl-parotidea":["Παρωτίδα","Ο μεγαλύτερος σιελογόνος αδένας· ορώδης σίελος."],
+      "gl-submandibularis":["Υπογνάθιος αδένας","Κάτω από την κάτω γνάθο· μικτός σίελος."],
+      "gl-sublingualis":["Υπογλώσσιος αδένας","Ο μικρότερος μεγάλος αδένας· βλεννώδης σίελος."],
+      "ductus-parotideus":["Πόρος παρωτίδας (Stenon)","Εκβάλλει απέναντι από τον δεύτερο άνω γομφίο."],
+      "ductus-submandibularis":["Πόρος υπογναθίου (Wharton)","Εκβάλλει δίπλα στον χαλινό της γλώσσας."],
+      "incisivi":["Τομείς","Μπροστινά δόντια για κόψιμο."],
+      "caninus":["Κυνόδοντας","Μυτερό δόντι με τη μακρύτερη ρίζα."],
+      "premolares":["Προγόμφιοι","Δύο ανά τεταρτημόριο· συνθλίβουν την τροφή."],
+      "molares":["Γομφίοι","Μεγάλα δόντια άλεσης στο τέλος της στοιχίας."],
+      "enamelum":["Αδαμαντίνη","Το σκληρότερο υλικό· 96% ανόργανα· δεν αναγεννάται."],
+      "dentinum":["Οδοντίνη","Κύρια ουσία του δοντιού· ευαίσθητη."],
+      "pulpa":["Πολφός","Νεύρα και αγγεία· θρέφει το δόντι."],
+      "periodontium":["Περιοδοντικός σύνδεσμος","Σταθεροποιεί το δόντι και απορροφά δυνάμεις."],
+      "cementum":["Οστείνη (cementum)","Καλύπτει τη ρίζα· συγκρατεί τις ίνες."],
+      "alveolarknochen":["Φατνιακό οστό","Οστική υποδοχή των δοντιών."],
+      "corona":["Κορώνα","Ορατό τμήμα του δοντιού."],
+      "cervix":["Αυχένας","Όριο κορώνας και ρίζας."],
+      "radix":["Ρίζα","Τμήμα του δοντιού μέσα στο οστό."],
+      "ezg":["Όριο αδαμαντίνης–οστείνης","Όριο μεταξύ αδαμαντίνης και οστείνης."],
+      "foramen-apicale":["Κορυφαίο τρήμα","Άνοιγμα στην κορυφή της ρίζας."],
+      "cavitas-oris":["Στοματική κοιλότητα","Χώρος μεταξύ χειλέων, παρειών, υπερώας και γλώσσας."],
+      "vestibulum-oris":["Στοματικός πρόδομος","Χώρος μεταξύ χειλέων/παρειών και δοντιών."],
+      "palatum-durum":["Σκληρή υπερώα","Οστική οροφή του στόματος."],
+      "palatum-molle":["Μαλακή υπερώα","Κλείνει τον ρινοφάρυγγα κατά την κατάποση."],
+      "uvula":["Σταφυλή","Κρέμεται από τη μαλακή υπερώα."],
+      "lingua":["Γλώσσα","Μυώδες όργανο για κατάποση, ομιλία και γεύση."],
+      "frenulum-linguae":["Χαλινός της γλώσσας","Συνδέει τη γλώσσα με το έδαφος του στόματος."],
+      "gingiva":["Ούλα","Προστατεύουν τον περιοδοντικό ιστό."],
+      "tonsilla-palatina":["Υπερώια αμυγδαλή","Λεμφικός ιστός δίπλα στα παρίσθμια."],
+      "pharynx":["Φάρυγγας","Μυώδης σωλήνας πίσω από στόμα και μύτη."],
+      "epiglottis":["Επιγλωττίδα","Κλείνει τον αεραγωγό κατά την κατάποση."],
+      "labium-superius":["Άνω χείλος","Μαλακό μόριο του άνω στομίου."],
+      "labium-inferius":["Κάτω χείλος","Μαλακό μόριο του κάτω στομίου."],
+      "papillae":["Θηλές της γλώσσας","Φέρουν τους γευστικούς κάλυκες."]
+    }
+  }
+};
+
+</script>
+<script>
+/* ============================================================
    Mundanatomie – Interaktion, Beschriftung, Quiz
    ============================================================ */
 (() => {
@@ -1002,6 +1198,11 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
   const $  = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
+  const t = k => (I18N.ui[state.lang] && I18N.ui[state.lang][k]) || I18N.ui.de[k] || k;
+  const trOf = d => (I18N.tr[state.lang] && I18N.tr[state.lang][d.id]) || null;
+  const nameOf = d => (trOf(d) ? trOf(d)[0] : d.name);
+  const descOf = d => (trOf(d) ? trOf(d)[1] : d.desc);
+
   const STORE_KEY = "mundanatomie.v1";
   const saved = (() => {
     try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
@@ -1009,6 +1210,7 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
   })();
 
   const state = {
+    lang: localStorage.getItem("mund.lang") || "de",
     view: "skull",
     cats: new Set(Array.isArray(saved.cats) && saved.cats.length ? saved.cats : Object.keys(CATS)),
     names: saved.names !== false,
@@ -1038,6 +1240,32 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
   /* ============================================================
      Aufbau
      ============================================================ */
+  function applyLang() {
+    document.documentElement.lang = state.lang;
+    const sel = $("#lang"); if (sel) sel.value = state.lang;
+    $$("[data-i18n]").forEach(el => {
+      const v = t(el.dataset.i18n);
+      if (typeof v === "string") el.textContent = v;
+    });
+    $$("[data-i18n-ph]").forEach(el => {
+      const v = t(el.dataset.i18nPh);
+      if (v) el.placeholder = v;
+    });
+    buildChips();
+    buildLegend();
+    $$(".view-btn").forEach(b => {
+      const [title, sub] = t("viewTitles")[b.dataset.view];
+      const span = b.querySelector("span:last-child");
+      if (span) span.innerHTML = `${esc(title)}<small>${esc(sub)}</small>`;
+    });
+    const vt = t("viewTitles")[state.view];
+    $("#view-title").textContent = vt[0];
+    $("#view-sub").textContent = vt[1];
+    buildLabels();
+    if (state.selected) select(state.selected);
+    updateLearnedBtn();
+  }
+
   function init() {
     buildChips();
     buildLegend();
@@ -1046,6 +1274,7 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
     setView(state.view, true);
     $("#learn-total").textContent = DATA.length;
     updateLearnedCount();
+    applyLang();
     renderSearch("");
     applyCats();
     applyNames();
@@ -1061,7 +1290,7 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
       b.dataset.cat = key;
       b.style.setProperty("--c", c.color);
       b.setAttribute("aria-pressed", state.cats.has(key));
-      b.innerHTML = `<span class="dot"></span>${c.short} <span style="opacity:.55;font-weight:500">${n}</span>`;
+      b.innerHTML = `<span class="dot"></span>${t("cats")[key]} <span style="opacity:.55;font-weight:500">${n}</span>`;
       b.addEventListener("click", () => toggleCat(key));
       box.appendChild(b);
     }
@@ -1070,7 +1299,7 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
   function buildLegend() {
     const box = $("#legend");
     box.innerHTML = Object.entries(CATS)
-      .map(([k, c]) => `<span><i style="background:${c.color}"></i>${c.short}</span>`)
+      .map(([k, c]) => `<span><i style="background:${c.color}"></i>${t("cats")[k]}</span>`)
       .join("");
   }
 
@@ -1083,8 +1312,8 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
     $$(".view-btn").forEach(b => b.classList.toggle("active", b.dataset.view === view));
     const sel = $("#view-select"); if (sel) sel.value = view;
     $$(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + view));
-    $("#view-title").textContent = VIEWS[view].title;
-    $("#view-sub").textContent = VIEWS[view].sub;
+    $("#view-title").textContent = t("viewTitles")[view][0];
+    $("#view-sub").textContent = t("viewTitles")[view][1];
     if (state.selected && !isInView(state.selected, view)) clearSelection();
     requestAnimationFrame(() => { buildLabels(); });
     if (!silent) closeSearch();
@@ -1231,8 +1460,8 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
       const el = document.createElement("div");
       el.className = "lbl " + side + (state.selected === it.id ? " sel" : "");
       el.dataset.id = it.id;
-      el.title = d.name + " – " + d.latin;
-      el.innerHTML = `${esc(d.name)}${state.learned.has(d.id) ? ' <span style="color:#2a8b6f">✓</span>' : ""}<small>${esc(d.latin)}</small>`;
+      el.title = nameOf(d) + " – " + d.latin;
+      el.innerHTML = `${esc(nameOf(d))}${state.learned.has(d.id) ? ' <span style="color:#2a8b6f">✓</span>' : ""}<small>${esc(d.latin)}</small>`;
       el.addEventListener("click", () => { it.el.dataset.anchor ? null : null; select(it.id); flash(it.id); });
       labelsBox.appendChild(el);
       return el;
@@ -1327,14 +1556,17 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
 
     const c = CATS[d.cat];
     const tag = $("#info-cat");
-    tag.textContent = c.label;
+    tag.textContent = t("cats")[d.cat];
     tag.style.background = c.color;
     tag.style.color = "#fff";
-    $("#info-name").textContent = d.name;
+    $("#info-name").textContent = nameOf(d);
     $("#info-latin").textContent = d.latin;
-    $("#info-desc").textContent = d.desc;
+    $("#info-desc").textContent = descOf(d);
     $("#info-funktion").textContent = d.funktion;
-    $("#info-merke").innerHTML = `<b>Merke:</b> ${esc(d.merke)}`;
+    $("#info-merke").innerHTML = `<b>${t("merke")}</b> ${esc(d.merke)}`;
+    const de = state.lang === "de";
+    $("#funktion-block").style.display = de ? "" : "none";
+    $("#info-merke").style.display = de ? "" : "none";
     updateLearnedBtn();
     buildLabels();
     if (window.matchMedia("(max-width: 1050px)").matches) {
@@ -1357,7 +1589,7 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
     const b = $("#btn-learned");
     if (!state.selected) return;
     const on = isLearned(state.selected);
-    b.textContent = on ? "✓ Gelernt – rückgängig" : "✓ Als gelernt markieren";
+    b.textContent = on ? t("unmark") : t("markLearned");
     b.classList.toggle("primary", !on);
   }
 
@@ -1380,7 +1612,7 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
   function showTip(el, e) {
     const d = BY_ID[el.dataset.id];
     if (!d) return;
-    tooltip.innerHTML = `${esc(d.name)}<small>${esc(d.latin)}</small>`;
+    tooltip.innerHTML = `${esc(nameOf(d))}<small>${esc(d.latin)}</small>`;
     tooltip.classList.add("show");
     moveTip(e);
   }
@@ -1399,14 +1631,14 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
   function renderSearch(q) {
     const box = $("#search-results");
     const query = norm(q.trim());
-    if (!query) { box.innerHTML = `<div class="muted" style="padding:4px 6px">Alle ${DATA.length} Strukturen durchsuchen …</div>`; return; }
-    const hits = DATA.filter(d => norm(d.name).includes(query) || norm(d.latin).includes(query)).slice(0, 14);
+    if (!query) { box.innerHTML = `<div class="muted" style="padding:4px 6px">${esc(t('searchAll'))}</div>`; return; }
+    const hits = DATA.filter(d => norm(nameOf(d)).includes(query) || norm(d.latin).includes(query) || norm(d.name).includes(query)).slice(0, 14);
     if (!hits.length) { box.innerHTML = `<div class="muted" style="padding:4px 6px">Nichts gefunden.</div>`; return; }
     box.innerHTML = "";
     hits.forEach(d => {
       const b = document.createElement("button");
       b.className = "search-item";
-      b.innerHTML = `<span class="dot" style="background:${CATS[d.cat].color}"></span><span>${esc(d.name)}<br><span class="muted" style="font-size:11px">${esc(d.latin)}</span></span>`;
+      b.innerHTML = `<span class="dot" style="background:${CATS[d.cat].color}"></span><span>${esc(nameOf(d))}<br><span class="muted" style="font-size:11px">${esc(d.latin)}</span></span>`;
       b.addEventListener("click", () => gotoStructure(d.id));
       box.appendChild(b);
     });
@@ -1469,27 +1701,27 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
     clearSelection();
     $$(".structure.sel").forEach(e => e.classList.remove("sel"));
 
-    $("#quiz-progress").textContent = `Frage ${q.idx + 1}/${q.queue.length} · ${q.score} richtig`;
+    $("#quiz-progress").textContent = `${t("question")} ${q.idx + 1}/${q.queue.length} · ${q.score} ${t("correctWord")}`;
 
     if (q.mode === "find") {
-      $("#quiz-prompt").textContent = "Finde im Bild: " + item.name;
+      $("#quiz-prompt").textContent = t("findPrompt") + nameOf(item);
       quizPanel.style.display = "block";
       quizPanel.className = "info-empty";
       quizPanel.innerHTML = `
-        <h2 style="color:#8a8171">Struktur finden</h2>
-        <p style="font-size:15px;margin:6px 0 10px"><b>${esc(item.name)}</b></p>
-        <p class="muted" style="font-size:12.5px">Klicke die passende Stelle im Bild an.</p>
-        <div class="info-block" style="margin-top:14px"><b>Kategorie</b><span>${CATS[item.cat].label}</span></div>`;
+        <h2 style="color:#8a8171">${t("modeFind")}</h2>
+        <p style="font-size:15px;margin:6px 0 10px"><b>${esc(nameOf(item))}</b></p>
+        <p class="muted" style="font-size:12.5px">${t("modeFindDesc")}</p>
+        <div class="info-block" style="margin-top:14px"><b>${t("filter")}</b><span>${t("cats")[item.cat]}</span></div>`;
     } else {
-      $("#quiz-prompt").textContent = "Welche Struktur ist markiert?";
+      $("#quiz-prompt").textContent = t("mcPrompt");
       const opts = makeOptions(item);
       quizPanel.style.display = "block";
       quizPanel.className = "info-empty";
       quizPanel.innerHTML = `
-        <h2 style="color:#8a8171">Name erkennen</h2>
-        <p style="font-size:15px;margin:6px 0 10px">Die markierte Struktur heisst …</p>
+        <h2 style="color:#8a8171">${t("modeMc")}</h2>
+        <p style="font-size:15px;margin:6px 0 10px">${t("mcPrompt")}</p>
         <div class="q-options" id="quiz-options">
-          ${opts.map((o, i) => `<button class="q-opt" data-id="${o.id}"><span class="k">${String.fromCharCode(65 + i)}</span>${esc(o.name)}</button>`).join("")}
+          ${opts.map((o, i) => `<button class="q-opt" data-id="${o.id}"><span class="k">${String.fromCharCode(65 + i)}</span>${esc(nameOf(o))}</button>`).join("")}
         </div>`;
       $$("#quiz-options .q-opt").forEach(b => b.addEventListener("click", () => answerMC(b.dataset.id, item)));
       setTimeout(() => markTarget(item.id), 80);
@@ -1529,8 +1761,8 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
     const right = id === item.id;
     if (right) { q.score++; q.answered++; }
     else q.mistakes.push(item.id);
-    feedback(right, right ? `Richtig – ${item.name}.` : `Leider falsch. Richtig wäre: ${item.name}.`);
-    $("#quiz-progress").textContent = `Frage ${q.idx + 1}/${q.queue.length} · ${q.score} richtig`;
+    feedback(right, right ? `${t("right")} – ${nameOf(item)}.` : `${t("wrong")}. ${t("wouldBe")} ${nameOf(item)}.`);
+    $("#quiz-progress").textContent = `${t("question")} ${q.idx + 1}/${q.queue.length} · ${q.score} ${t("correctWord")}`;
     setTimeout(() => { q.idx++; nextQuestion(); }, right ? 900 : 1700);
   }
 
@@ -1544,12 +1776,12 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
     if (id === item.id) {
       q.locked = true;
       q.score++; q.answered++;
-      feedback(true, `Richtig! ${item.name} (${item.latin}).`);
-      $("#quiz-progress").textContent = `Frage ${q.idx + 1}/${q.queue.length} · ${q.score} richtig`;
+      feedback(true, `${t("rightFind")} ${nameOf(item)} (${item.latin}).`);
+      $("#quiz-progress").textContent = `${t("question")} ${q.idx + 1}/${q.queue.length} · ${q.score} ${t("correctWord")}`;
       setTimeout(() => { q.idx++; nextQuestion(); }, 850);
     } else {
       if (q.firstTry) { q.firstTry = false; q.mistakes.push(item.id); }
-      feedback(false, `Das ist ${clicked.name}. Suche weiter: ${item.name}.`);
+      feedback(false, `${t("wrong")}: ${nameOf(clicked)}. ${t("findPrompt")}${nameOf(item)}.`);
       flash(id);
     }
   }
@@ -1560,7 +1792,7 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
     const item = q.queue[q.idx];
     q.locked = true;
     q.mistakes.push(item.id);
-    feedback(false, `Übersprungen. Richtig wäre: ${item.name}.`);
+    feedback(false, `${t("skip")}. ${t("wouldBe")} ${nameOf(item)}.`);
     setTimeout(() => { q.idx++; nextQuestion(); }, 1300);
   }
 
@@ -1571,7 +1803,7 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
     const n = q.queue.length;
     const pct = Math.round((q.score / n) * 100);
     const note = pct >= 90 ? "Ausgezeichnet – das sitzt!" : pct >= 70 ? "Sehr gut – nur noch Feinschliff." : pct >= 50 ? "Guter Anfang – wiederhole die markierten Stellen." : "Noch eine Runde: Schau dir die Strukturen mit Namen an und starte dann neu.";
-    $("#modal-title").textContent = "Quiz beendet";
+    $("#modal-title").textContent = t("quizDone");
     $("#modal-sub").textContent = note;
     $("#mode-grid").style.display = "none";
     const box = $("#modal-quiz");
@@ -1585,8 +1817,8 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
         </div>
       </div>
       <div class="info-actions">
-        <button class="btn primary" id="quiz-again">Nochmal</button>
-        <button class="btn" id="quiz-close2">Schliessen</button>
+        <button class="btn primary" id="quiz-again">${t("again")}</button>
+        <button class="btn" id="quiz-close2">${t("close")}</button>
       </div>`;
     $("#modal").classList.add("on");
     $("#quiz-again").addEventListener("click", () => { resetQuizUI(); startQuiz(mode); });
@@ -1650,8 +1882,8 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
 
     $("#btn-quiz").addEventListener("click", () => {
       if (state.quiz) return;
-      $("#modal-title").textContent = "Quiz";
-      $("#modal-sub").textContent = "Wähle einen Modus. Die Fragen beziehen sich auf die eingeblendeten Strukturen.";
+      $("#modal-title").textContent = t("quizTitle");
+      $("#modal-sub").textContent = t("quizSub");
       $("#mode-grid").style.display = "";
       $("#modal-quiz").style.display = "none";
       $("#modal").classList.add("on");
@@ -1660,6 +1892,13 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
 
     $("#quiz-skip").addEventListener("click", skipQuestion);
     $("#quiz-stop").addEventListener("click", stopQuiz);
+
+    $("#lang").addEventListener("change", e => {
+      state.lang = e.target.value;
+      localStorage.setItem("mund.lang", state.lang);
+      if (state.quiz) stopQuiz();
+      applyLang();
+    });
 
     $("#btn-help").addEventListener("click", () => $("#help-modal").classList.add("on"));
     $("#help-close").addEventListener("click", () => $("#help-modal").classList.remove("on"));
@@ -1688,8 +1927,8 @@ const BY_ID = Object.fromEntries(DATA.map(d => [d.id, d]));
     if (!state.selected || !("speechSynthesis" in window)) return;
     const d = BY_ID[state.selected];
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(`${d.name}. ${d.latin}. ${d.desc}`);
-    u.lang = "de-DE";
+    const u = new SpeechSynthesisUtterance(`${nameOf(d)}. ${d.latin}. ${descOf(d)}`);
+    u.lang = state.lang === "en" ? "en-GB" : state.lang === "el" ? "el-GR" : "de-DE";
     u.rate = 0.92;
     speechSynthesis.speak(u);
   }

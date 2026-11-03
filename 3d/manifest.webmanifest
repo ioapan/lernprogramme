@@ -1,0 +1,29 @@
+{
+  "name": "Mundanatomie 3D",
+  "short_name": "Anatomie 3D",
+  "description": "Drehbares 3D-Modell von Kiefer, Zähnen, Muskeln und Drüsen",
+  "lang": "de",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2ede4",
+  "theme_color": "#0f5f57",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

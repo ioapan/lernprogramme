@@ -4,6 +4,7 @@ Statische Website mit zwei eigenständigen Lernprogrammen (je eine HTML-Datei):
 
 - `mundanatomie/` – Mundanatomie interaktiv
 - `test3/` – Test 3 Trainer (Kap. 7–10)
+- `3d/` – Mundanatomie 3D (drehbares Modell, AR-vorbereitet)
 
 Gehostet mit **GitHub Pages**. Kein Login, keine Cookies, kein Tracking. Der Lernfortschritt wird nur lokal im Browser (localStorage) gespeichert.
 
@@ -26,6 +27,7 @@ Im Arbeitsordner (eine Ebene über diesem Repo):
 index.html              Startseite
 mundanatomie/index.html Lernprogramm 1
 test3/index.html        Lernprogramm 2
+3d/index.html           Lernprogramm 3 (3D)
 img/                    Screenshots
 icon-*.png             App-Icons (Home-Bildschirm)
 manifest.webmanifest   Web-App-Manifest

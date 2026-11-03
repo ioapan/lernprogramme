@@ -1,5 +1,17 @@
 # Änderungen
 
+## v2.0.0 – 03.11.2026
+
+- **Neu: Mundanatomie 3D** – drehbares, zoombares und verschiebbares 3D-Modell von Kiefer, Zähnen, Kaumuskeln und Speicheldrüsen.
+  - Ebenen einzeln ein-/ausblenden, Strukturen anklicken, Ansicht zurücksetzen, Auto-Drehen.
+  - **AR-vorbereitet:** WebXR-Start auf kompatiblen Geräten, sonst GLB-Export für AR-Apps.
+  - Eigene Seite `/3d/`, auch als Einzeldatei herunterladbar.
+- **Mehrsprachig:** Deutsch, English, Ελληνικά mit Sprachwahl in der App (bleibt gespeichert).
+  - Anatomische Bezeichnungen und Kurzbeschreibungen in allen drei Sprachen, Latein bleibt.
+  - Geprüfte Terminologie (z. B. κροταφίτης μυς, μασητήρας, αδαμαντίνη, φατνιακό οστό).
+- Landingpage mit drei Programmen und 3D-Karte.
+- Test 3 Trainer bleibt bewusst auf Deutsch (Prüfungssprache).
+
 ## v1.1.0 – 02.11.2026
 
 - **Zum Home-Bildschirm:** Beide Programme und die Startseite haben jetzt ein eigenes App-Icon und ein Web-App-Manifest.
