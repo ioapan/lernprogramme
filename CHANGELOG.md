@@ -1,5 +1,11 @@
 # Änderungen
 
+## v2.2.0 – 03.11.2026
+
+- **Scan-Ansicht:** Muskeln und Drüsen lassen sich jetzt auch über den Schädel-Scan legen – der Scan wird dabei transparent (Röntgenblick), die Weichteile sind schematisch ausgerichtet.
+- **Ebenen im Scan:** Knochen (Scan), Muskeln und Drüsen einzeln schaltbar; «Zähne» ist im Scan enthalten und deshalb ausgegraut.
+- **AR mit Tisch-Erkennung:** Auf AR-fähigen Geräten erscheint ein Ring auf der erkannten Oberfläche; antippen setzt den Schädel dort ab (WebXR Hit-Test).
+
 ## v2.1.0 – 03.11.2026
 
 - **Echter 3D-Schädel-Scan** (BodyParts3D, CC BY-SA 2.1 JP) statt nur Schema-Modell.

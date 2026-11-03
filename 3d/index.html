@@ -51,7 +51,7 @@ button{font-family:inherit}
 .modes{display:flex;gap:4px;margin-bottom:8px}
 .mode{flex:1;border:1px solid var(--line);background:#fff;border-radius:9px;padding:6px 8px;font-size:11.5px;cursor:pointer;font-family:inherit}
 .mode.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:650}
-.filters.scan .layer{opacity:.3;pointer-events:none}
+.layer.disabled{opacity:.3;pointer-events:none}
 .filters h2{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#8a8171;margin:0 0 6px;font-weight:700}
 .layer{display:flex;align-items:center;gap:8px;border:1px solid transparent;background:transparent;color:var(--ink);
   padding:6px 8px;border-radius:9px;font-size:12.5px;cursor:pointer;text-align:left}
@@ -110,7 +110,7 @@ button{font-family:inherit}
   .modes{display:flex;gap:4px;margin-bottom:8px}
 .mode{flex:1;border:1px solid var(--line);background:#fff;border-radius:9px;padding:6px 8px;font-size:11.5px;cursor:pointer;font-family:inherit}
 .mode.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:650}
-.filters.scan .layer{opacity:.3;pointer-events:none}
+.layer.disabled{opacity:.3;pointer-events:none}
 .filters h2{display:none}
   .layer{padding:5px 7px;font-size:11px}
   .info{right:8px;top:auto;bottom:70px;width:calc(100vw - 16px);max-width:330px}
@@ -4363,6 +4363,7 @@ const SKULL_GZ_B64 = "H4sIALUH6moC/6ydeVxOW/Twt8yZydDw9BRC5kShzt42IWQKSTIr85BEg8
       scanGroup.add(scanMesh);
       scanReady = true;
       if (state.mode === "scan") { setMode("scan"); }
+      updateScanMaterial();
     } catch (e) {
       console.warn("scan failed", e);
       scanGroup.visible = false;
@@ -4584,16 +4585,52 @@ const SKULL_GZ_B64 = "H4sIALUH6moC/6ydeVxOW/Twt8yZydDw9BRC5kShzt42IWQKSTIr85BEg8
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
 
+  function alignSoftToScan() {
+    if (!scanMesh) return;
+    const bb = new THREE.Box3().setFromObject(scanMesh);
+    const size = bb.getSize(new THREE.Vector3());
+    const c = bb.getCenter(new THREE.Vector3());
+    const k = 1.0;
+    [groups.muscles, groups.glands].forEach(g => {
+      g.scale.setScalar(k);
+      g.position.set(c.x, bb.min.y + size.y * 0.3, c.z + size.z * 0.08);
+    });
+  }
+
+  function resetSoft() {
+    [groups.muscles, groups.glands].forEach(g => {
+      g.scale.setScalar(1);
+      g.position.set(0, 0, 0);
+    });
+  }
+
+  function updateScanMaterial() {
+    if (!scanMesh) return;
+    const soft = state.mode === "scan" && (state.cats.muscles || state.cats.glands);
+    const m = scanMesh.material;
+    m.transparent = soft;
+    m.opacity = soft ? 0.3 : 1;
+    m.depthWrite = !soft;
+    m.needsUpdate = true;
+  }
+
   function setMode(m) {
     state.mode = m;
     const scan = m === "scan";
-    if (scanGroup) scanGroup.visible = scan && scanReady;
+    if (scan) alignSoftToScan(); else resetSoft();
+    scanGroup.visible = scan && scanReady && state.cats.bones;
     groups.bones.visible = !scan && state.cats.bones;
     groups.teeth.visible = !scan && state.cats.teeth;
-    groups.muscles.visible = !scan && state.cats.muscles;
-    groups.glands.visible = !scan && state.cats.glands;
+    groups.muscles.visible = state.cats.muscles;
+    groups.glands.visible = state.cats.glands;
     $$(".mode").forEach(b => b.classList.toggle("on", b.dataset.mode === m));
+    const tb = $$(".layer").find(b => b.dataset.cat === "teeth");
+    if (tb) {
+      tb.classList.toggle("disabled", scan);
+      tb.title = scan ? "Zähne sind im Scan enthalten" : "";
+    }
     const f = $(".filters"); if (f) f.classList.toggle("scan", scan);
+    updateScanMaterial();
     frameModel();
   }
 
@@ -4617,9 +4654,14 @@ const SKULL_GZ_B64 = "H4sIALUH6moC/6ydeVxOW/Twt8yZydDw9BRC5kShzt42IWQKSTIr85BEg8
 
   $$(".layer").forEach(btn => btn.addEventListener("click", () => {
     const c = btn.dataset.cat;
+    if (state.mode === "scan" && c === "teeth") return;
     state.cats[c] = !state.cats[c];
     btn.classList.toggle("on", state.cats[c]);
-    groups[c].visible = state.cats[c];
+    if (state.mode === "scan" && c === "bones") {
+      scanGroup.visible = state.cats.bones;
+    } else {
+      groups[c].visible = state.cats[c];
+    }
   }));
 
   $("#btn-reset").addEventListener("click", () => {
@@ -4664,6 +4706,8 @@ const SKULL_GZ_B64 = "H4sIALUH6moC/6ydeVxOW/Twt8yZydDw9BRC5kShzt42IWQKSTIr85BEg8
     $("#ar-modal").classList.add("on");
   }
 
+  let xrHit = null, xrSpace = null, reticle = null;
+
   async function startAR() {
     if (!navigator.xr || !renderer.xr) return showArFallback();
     let supported = false;
@@ -4671,21 +4715,47 @@ const SKULL_GZ_B64 = "H4sIALUH6moC/6ydeVxOW/Twt8yZydDw9BRC5kShzt42IWQKSTIr85BEg8
     if (!supported) return showArFallback();
     try {
       const session = await navigator.xr.requestSession("immersive-ar", {
-        requiredFeatures: ["local-floor"],
-        optionalFeatures: ["hit-test"]
+        requiredFeatures: ["hit-test"],
+        optionalFeatures: ["local-floor", "dom-overlay"]
       });
       renderer.xr.enabled = true;
-      renderer.xr.setReferenceSpaceType("local-floor");
+      renderer.xr.setReferenceSpaceType("local");
       await renderer.xr.setSession(session);
       scene.background = null;
-      root.position.set(0, 0, -1.2);
-      root.scale.setScalar(0.33);
+
+      if (!reticle) {
+        const ring = new THREE.RingGeometry(0.07, 0.09, 40).rotateX(-Math.PI / 2);
+        reticle = new THREE.Mesh(ring, new THREE.MeshBasicMaterial({ color: 0x0f5f57, transparent: true, opacity: 0.9 }));
+        reticle.matrixAutoUpdate = false;
+        reticle.visible = false;
+        scene.add(reticle);
+      }
+      reticle.visible = false;
+      root.visible = false;
       controls.enabled = false;
+
+      session.requestReferenceSpace("viewer").then(v => session.requestHitTestSource({ space: v }))
+        .then(src => { xrHit = src; }).catch(() => {});
+      session.requestReferenceSpace("local-floor").then(sp => { xrSpace = sp; }).catch(() => {});
+
+      session.addEventListener("select", () => {
+        if (reticle && reticle.visible) {
+          root.visible = true;
+          root.position.setFromMatrixPosition(reticle.matrix);
+          root.position.y += 0.02;
+          root.scale.setScalar(0.32);
+          root.rotation.set(0, 0, 0);
+          reticle.visible = false;
+        }
+      });
       session.addEventListener("end", () => {
         renderer.xr.enabled = false;
         controls.enabled = true;
+        root.visible = true;
         root.position.set(0, 0, 0);
         root.scale.setScalar(1);
+        xrHit = null; xrSpace = null;
+        if (reticle) reticle.visible = false;
         location.reload();
       });
     } catch (e) {
@@ -4705,8 +4775,21 @@ const SKULL_GZ_B64 = "H4sIALUH6moC/6ydeVxOW/Twt8yZydDw9BRC5kShzt42IWQKSTIr85BEg8
   }
 
   /* ---------------- Loop ---------------- */
-  renderer.setAnimationLoop(() => {
-    controls.update();
+  renderer.setAnimationLoop((time, frame) => {
+    if (renderer.xr.isPresenting && frame && xrHit) {
+      const res = frame.getHitTestResults(xrHit);
+      if (res.length && xrSpace) {
+        const pose = res[0].getPose(xrSpace);
+        if (pose) {
+          reticle.visible = true;
+          reticle.matrix.fromArray(pose.transform.matrix);
+        }
+      } else if (reticle) {
+        reticle.visible = false;
+      }
+    } else {
+      controls.update();
+    }
     renderer.render(scene, camera);
   });
 
