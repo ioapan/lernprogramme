@@ -93,9 +93,11 @@ button{font-family:inherit}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
 @media (max-width:720px){
-  .topbar{padding:9px 12px;gap:8px}
-  .brand h1{font-size:14px}
+  .topbar{padding:9px 10px;gap:8px}
+  .brand h1{display:none}
   .brand p{display:none}
+  .brand-mark{width:34px;height:34px;font-size:12px}
+  .lang{max-width:96px;padding:6px 8px;font-size:11px}
   .top-actions .btn{padding:7px 10px;font-size:11.5px}
   .lang{padding:7px 8px;font-size:11.5px}
   .stage{inset:57px 0 0 0}
@@ -165,6 +167,7 @@ button{font-family:inherit}
       <button class="tool" id="btn-reset" title="Ansicht zurücksetzen"><span>⟲</span><em data-i18n="reset">Zurücksetzen</em></button>
       <button class="tool" id="btn-rotate" title="Automatisch drehen"><span>↻</span><em data-i18n="autorotate">Auto-Drehen</em></button>
       <button class="tool" id="btn-glb" title="3D-Datei für AR herunterladen"><span>⬇</span><em data-i18n="export">GLB für AR</em></button>
+      <a class="tool" href="../" title="Startseite"><span>⌂</span><em data-i18n="home">Startseite</em></a>
     </div>
 
     <div class="toast" id="toast"></div>
@@ -3767,7 +3770,7 @@ button{font-family:inherit}
       helpPan:"Verschieben", helpPanTxt:"Rechtsklick ziehen oder mit zwei Fingern schieben.",
       helpPick:"Anklicken", helpPickTxt:"Eine Struktur antippen – rechts erscheint die Erklärung.",
       helpAR:"AR", helpARTxt:"Auf AR-fähigen Geräten startet der AR-Modus; sonst kannst du das Modell als GLB herunterladen und in einer AR-App öffnen.",
-      ok:"Alles klar", arTitle:"AR noch nicht verfügbar",
+      ok:"Alles klar", home:"Startseite", arTitle:"AR noch nicht verfügbar",
       arText:"Dieses Gerät oder dieser Browser unterstützt WebAR noch nicht. Du kannst das Modell als GLB-Datei herunterladen und in einer AR-App öffnen (Android: Scene Viewer, iPhone: z. B. über eine AR-App).",
       exportStarted:"GLB wird erstellt …", exportDone:"GLB heruntergeladen – jetzt in einer AR-App öffnen.",
       cats:{ bones:"Knochen", teeth:"Zähne", muscles:"Muskeln", glands:"Drüsen" } },
@@ -3783,7 +3786,7 @@ button{font-family:inherit}
       helpPan:"Pan", helpPanTxt:"Right-drag or push with two fingers.",
       helpPick:"Select", helpPickTxt:"Tap a structure – the explanation appears on the right.",
       helpAR:"AR", helpARTxt:"On AR-capable devices the AR mode starts; otherwise download the model as GLB and open it in an AR app.",
-      ok:"Got it", arTitle:"AR not available yet",
+      ok:"Got it", home:"Home", arTitle:"AR not available yet",
       arText:"This device or browser does not support WebAR yet. You can download the model as a GLB file and open it in an AR app (Android: Scene Viewer, iPhone: via an AR app).",
       exportStarted:"Creating GLB …", exportDone:"GLB downloaded – open it in an AR app.",
       cats:{ bones:"Bones", teeth:"Teeth", muscles:"Muscles", glands:"Glands" } },
@@ -3799,7 +3802,7 @@ button{font-family:inherit}
       helpPan:"Μετακίνηση", helpPanTxt:"Δεξί κλικ και σύρσιμο ή δύο δάχτυλα.",
       helpPick:"Επιλογή", helpPickTxt:"Πατήστε μια δομή – η εξήγηση εμφανίζεται δεξιά.",
       helpAR:"AR", helpARTxt:"Σε συσκευές με AR ξεκινά η λειτουργία AR· αλλιώς κατεβάστε το μοντέλο ως GLB και ανοίξτε το σε εφαρμογή AR.",
-      ok:"Εντάξει", arTitle:"Το AR δεν είναι ακόμη διαθέσιμο",
+      ok:"Εντάξει", home:"Αρχική", arTitle:"Το AR δεν είναι ακόμη διαθέσιμο",
       arText:"Αυτή η συσκευή ή ο browser δεν υποστηρίζει ακόμη WebAR. Κατεβάστε το μοντέλο ως αρχείο GLB και ανοίξτε το σε εφαρμογή AR (Android: Scene Viewer, iPhone: μέσω εφαρμογής AR).",
       exportStarted:"Δημιουργία GLB …", exportDone:"Το GLB κατέβηκε – ανοίξτε το σε εφαρμογή AR.",
       cats:{ bones:"Οστά", teeth:"Δόντια", muscles:"Μύες", glands:"Αδένες" } }
@@ -4057,6 +4060,19 @@ button{font-family:inherit}
   window.addEventListener("resize", resize);
   resize();
 
+  function frameModel() {
+    const box = new THREE.Box3().setFromObject(root);
+    const center = box.getCenter(new THREE.Vector3());
+    const radius = box.getBoundingSphere(new THREE.Sphere()).radius || 1;
+    const vfov = THREE.MathUtils.degToRad(camera.fov / 2);
+    const dist = radius / Math.sin(vfov) / Math.min(1, camera.aspect) * 1.18;
+    const dir = new THREE.Vector3(0.55, 0.42, 1).normalize();
+    controls.target.copy(center);
+    camera.position.copy(center).add(dir.multiplyScalar(dist));
+    controls.update();
+  }
+  frameModel();
+
   /* ---------------- Auswahl / Raycast ---------------- */
   const raycaster = new THREE.Raycaster();
   const pointer = new THREE.Vector2();
@@ -4146,10 +4162,8 @@ button{font-family:inherit}
   }));
 
   $("#btn-reset").addEventListener("click", () => {
-    camera.position.set(1.1, 0.65, 3.1);
-    controls.target.set(0, 0.02, 0.1);
     root.rotation.y = 0.28;
-    controls.update();
+    frameModel();
   });
 
   $("#btn-rotate").addEventListener("click", () => {

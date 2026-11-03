@@ -1,5 +1,11 @@
 # Änderungen
 
+## v2.0.1 – 03.11.2026
+
+- 3D-Modell: Kamera passt sich automatisch an Bildschirmgrösse an (auch Hochformat/Handy).
+- 3D-Modell: Link zur Startseite, kompakter Kopfbereich auf dem Handy.
+- Mundanatomie: Link zum 3D-Modell im Fussbereich.
+
 ## v2.0.0 – 03.11.2026
 
 - **Neu: Mundanatomie 3D** – drehbares, zoombares und verschiebbares 3D-Modell von Kiefer, Zähnen, Kaumuskeln und Speicheldrüsen.
